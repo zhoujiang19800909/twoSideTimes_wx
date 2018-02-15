@@ -1,0 +1,93 @@
+/* pages/order/list/list.wxss */
+.active-color{
+  background: #825353;
+}
+.unactive-color{
+  background: #999999;
+}
+.start-btn{
+  width:100px;
+  height:30px;
+  background:#825353;
+  font-size:14px;
+  color:white;
+}
+.note-btn{
+  font-size:14px;
+  color:grey;
+  margin-top:30px
+}
+.dindgan-i{
+  font-size:100px;
+  color:grey;
+}
+.tab-box{
+  width:50%;
+  display:flex;
+  font-size:14px;
+  color:white
+}
+
+.orderDate-bar{
+  height:30px;
+  font-size:14px;
+}
+.top-left-label{
+  float:left;
+  padding:5px;
+  margin-left:10px;
+}
+.top-right-label{
+  float:right;
+  font-size:13px;
+  padding:5px;
+}
+.cart-list-box{
+  background:#FFFFFF;
+  display:flex;
+  font-size:15px;
+  border-bottom:1px #E3E3E3 solid;
+}
+.order-list-box{
+  background:#FFFFFF;
+  display:flex;
+  flex-direction: row;
+  font-size:14px;
+  border-bottom:1px #E3E3E3 solid;
+}
+.list-info{
+  width:90%;
+  /* padding:5px 15px; */
+  display:flex;
+  font-size: 14px;
+}
+.list-info-size{
+  font-size:12px;
+  color:#B1B1B1;
+}
+.check-cnt{
+  background-color:gray;
+  color:white;
+  margin-right:20rpx;
+  width:200rpx;
+  height:50rpx;
+}
+.check-orderNo{
+  margin-right:10rpx;
+  background-color:gray;
+  color:white;
+  height:70rpx;
+  width:300rpx;
+}
+.check-yes{
+  background-color:green;
+  color:white;
+  height:70rpx;
+  width:160rpx;
+}
+.check-no{
+  background-color:gray;
+  color:white;
+  height:70rpx;
+  width:100rpx;
+}

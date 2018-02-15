@@ -1,0 +1,46 @@
+{
+  "pages":[
+    "pages/mine/mine",
+    "pages/order/list/list",
+    "pages/find/shop/shop",
+    "pages/order/detail/detail",
+    "pages/logs/logs",
+    "pages/find/foods/foods",
+    "pages/order/balance/balance",
+    "pages/mine/chief/chief",
+    "pages/mine/waiter/waiter",
+    "pages/mine/service/service"
+    
+  ],
+  "window":{
+    "backgroundTextStyle":"light",
+    "navigationBarBackgroundColor": "#825353",
+    "navigationBarTitleText": "两面时光概念店",
+    "navigationBarTextStyle":"white"
+  },
+    "tabBar": {
+      "color": "#8a8a8a",
+      "selectedColor": "#825353",
+      "borderStyle": "black",
+      "list": [
+        {
+          "selectedIconPath": "images/home_s.png",
+          "iconPath": "images/home.png",
+          "pagePath": "pages/index/index",
+          "text": "发现"
+        },
+        {
+          "selectedIconPath": "images/order_s.png",
+          "iconPath": "images/order.png",
+          "pagePath": "pages/order/list/list",
+          "text": "点餐"
+        },
+        {
+          "selectedIconPath": "images/mine_s.png",
+          "iconPath": "images/mine.png",
+          "pagePath": "pages/mine/mine",
+          "text": "我的"
+        }
+      ]
+    }
+}

@@ -1,0 +1,53 @@
+<!--pages/order/list/list.wxml-->
+<view>
+   <view class='go-center' style='margin-top:10px'>
+      <view class='tab-box'>
+        <!--view  bindtap='changeTab' data-index="0" class="go-center {{tabIndex==0?'active-color':'unactive-color'}}"  style='width:50%'>即时订单</view-->
+        <view bindtap='changeTab' data-index="1" class="go-center {{tabIndex==1?'active-color':'unactive-color'}}" style='width:100%'>预约订单</view>
+      </view>
+   </view>
+   <view wx:if="{{hasOrder}}">  
+    <scroll-view scroll-y="true" style='height:600rpx;margin-top:50rpx' bindscroll="scroll"  >
+      <view class='order-list-box' wx:for="{{orderList}}" wx:key="unique">
+        <view class='list-info' style="font-size:13px">
+          <view style="margin-right:10rpx;">{{item.orderTime}}</view>
+          <view style="margin-right:10rpx;">共 {{item.cnt}} 件</view>
+          <view style="margin-right:10rpx;">金额 {{item.sum}}</view>
+          <view style='flex:1' />
+          <image src="../../../images/right.png" style="width:32rpx;height:32rpx;" bindtap='selOrderDetail'/>
+        </view>
+      </view>
+
+    </scroll-view>
+   </view> 
+   <view wx:else>
+    <view class='go-center' style="margin-top:100px">
+      <i class="iconfont icon-dingdan dindgan-i" ></i>
+    </view>
+    <view class='go-center note-btn'>目前没有订单</view>
+   </view>
+   <view class='go-center' style="margin-top:30px" />
+   <view wx:if="{{tabIndex == 1}}">  
+    <view class='order-list-box'>
+      <view style="flex:5" />
+      <picker class='go-center' value="{{orderDateIndex}}" range="{{orderDateView}}" bindchange="selOrderDate">
+        <view>
+          预约时间：{{orderDateView[orderDateIndex]}}
+        </view>
+      </picker>
+      <view style="flex:1" />
+      <picker mode="time" class='go-center'  value="{{orderTime}}" start="10:00" end="18:00" bindchange="selOrderTime">
+        <view>
+          {{orderTime}}
+        </view>
+      </picker>
+      <view style="flex:5" />
+    </view>
+   </view>
+   <view wx:else> 
+    <view style="margin-top:20px" />
+   </view>
+   <view class='go-center' style='margin-top:20px' >
+     <view class='go-center down-center start-btn' bindtap='golist'>开始点餐</view>
+   </view>
+</view>

@@ -1,0 +1,69 @@
+<view>
+  <view style="border-bottom: 1px solid #E3E3E3;">
+      <picker class='go-center' value="{{orderDateIndex}}" range="{{orderDateView}}" bindchange="selOrderDate">
+        <view style="font-size:14px;margin:20rpx;">
+          预约时间：2018-01-01
+        </view>
+      </picker>
+  </view>
+<!-- 左侧菜单 -->
+  <view class="list-left-menu">
+    <view wx:for="{{listData}}" wx:key="unique" class="{{index==activeIndex?'list-left-menu-box-selected':'list-left-menu-box-unselect'}}" data-index="{{index}}" bindtap='selectMenu'>
+      <view class="list-menu-name">{{item.name}}</view>
+    </view>
+  </view>
+  <!-- 右侧菜单 -->
+  <scroll-view scroll-y="true" style='height:960rpx;border-bottom: 1px solid #E3E3E3;' bindscroll="scroll" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}">
+    <!--产品分类-->
+    <view class="content" id="{{index}}" wx:for="{{listData}}" wx:key="unique">
+      <view class='list-tab'>{{item.name}}</view>
+      <!--产品列表-->
+      <view wx:for="{{item.foods}}" wx:key="unique" wx:for-item="items" wx:for-index="indexs">
+        <view class='content-list' style='border-bottom: 1px solid #E3E3E3;'>
+          <!--订单数量-->
+          <view class="go-center chef-cnt" style="color:white;margin:5rpx;width:80rpx; {{items.hasMemo?'background-color:red':'background-color:orange'}}" bindtap="selfood" id="{{items.foodId}}">
+            {{items.orderNum}}</view>
+          <!--产品名称-->
+          <view class='issue-name' style='margin-top:20rpx;width:420rpx;'>
+              <view>{{items.name}}</view>
+              <view style="font-size:24rpx;color:orange;">最新订单时间：{{items.uptime}}</view>
+          </view>
+          <!--点击全部完成-->
+          <view class="go-center" style="width:80rpx;border-left: 1px solid #E3E3E3;">
+            <image src="../../../images/chef_achieve.png" style="width:24px;height:24px"/>
+          </view>
+        </view>
+        <!--产品订单信息-->
+        <view wx:if="{{items.open}}">
+          <view wx:for="{{items.orderList}}" wx:key="foodId" >
+            <view style="display:flex;display-flex:col">
+              <view style="margin-left:170rpx;border-bottom: 1px solid #E3E3E3;font-size:12px;dispaly:flex;display-flex:row;background-color:#eeeeee;width:510rpx">
+                <view style="color:blue;display:flex;display-flex:column">
+                  <!-- 订单号 -->
+                  <view>{{item.orderNo}}</view>
+                  <view style="flex:4" />
+                  <!-- 取餐时间 -->
+                  <view>{{item.takeTime}}</view>
+                </view>
+                <!-- 备注 -->
+                
+                <view wx:if="{{item.memo!=''}}" style="color:red;">备注：无</view>
+              </view>
+              <view style="flex:1"/>
+              <!--点击单个完成-->
+              <view class="go-center" style="width:80rpx;border-left: 1px solid #E3E3E3;">
+                <image src="../../../images/chef_achieve_gray.png" style="width:24px;height:24px"/>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+  <!-- 底部操作菜单 -->
+  <view class="go-center" style="display:flex;display-flex:column;margin:10rpx;font-size:14px;border-bottom:1px #E3E3E3 solid;;height:80rpx">
+    <view class="go-center check-cnt" style="background-color:blue;">全部:{{foodSts.all}}</view>
+    <view class="go-center check-cnt" style="background-color:gray;">已制作:{{foodSts.done}}</view>
+    <view class="go-center check-cnt" style="background-color:orange;">待制作:{{foodSts.undo}}</view>
+   </view>
+</view>

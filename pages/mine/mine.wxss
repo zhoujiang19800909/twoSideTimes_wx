@@ -1,0 +1,68 @@
+/* pages/mine/mine.wxss */
+.top-mode{
+  background: #825353;
+}
+
+.userinfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.userinfo-avatar {
+  width: 128rpx;
+  height: 128rpx;
+  margin: 20rpx;
+  border-radius: 50%;
+}
+
+.userinfo-nickname {
+  color: #aaa;
+}
+
+.usermotto {
+  margin-top: 200px;
+}
+.card-info{
+  width: 80%;
+  height:50rpx;
+  box-shadow: 0.5px 0.5px 0.5px 0.5px rgba(255, 156, 53, 10);
+  z-index: 1000;
+  background: white;
+  padding: 10px;
+}
+.card-box{
+ 
+  margin-top:-20px;
+}
+
+.flex_row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: #ffffff;
+  border-bottom:1px solid #E3E3E3;
+}
+.my_image {
+  width: 128rpx;height: 128rpx;margin: 30rpx;border-radius: 100%;
+}
+
+.my_name {
+  color:#aaa;
+}
+
+.my_setting {
+  width: 80rpx;height: 80rpx;margin: 50rpx;
+}
+.item_left {
+  width: 64rpx;height: 64rpx;margin: 20rpx;
+}
+
+.course_middle {
+  flex: 1;overflow: hidden;
+}
+
+.item_right {
+  width: 48rpx;height: 48rpx;margin-right: 50rpx;
+}
+
