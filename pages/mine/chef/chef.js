@@ -21,7 +21,10 @@ Page({
     cupNumber: 0,
     showCart: false,
     loading: false,
-    foodSts:{}
+    foodSts:{},
+    validityDates:[],
+    validityDatesView:[],
+    validityDateIndex: 0,//TODO 默认为1 当天
   },
   onReady: function () {
     wx.setNavigationBarTitle({
@@ -42,16 +45,31 @@ Page({
     wx.showLoading({
       title: '努力加载中',
     })
-    this.getChefOrderSts();
-    //将本来的后台换成了easy-mock 的接口，所有数据一次请求完 略大。。
-    util.doGet(app.globalData.server + '/getChefOrders', function (res) {
-      wx.hideLoading();
-      console.log(res)
-      that.setData({
-        listData: res.data,
-        loading: true
-      })
-    });
+
+    //计算预约时间范围 
+    //当天开始7天内
+    // var currDate = new Date(); //当天
+    // var nowDay = new Date().getDay();
+
+    // var validityDates = [];
+    // var validityDatesView = [];
+    // validityDates[0] = 'all';
+    // validityDatesView[0] = '全部';
+    // for (var i = 1; i < 8; i++) {
+    //   validityDates[i] = new Date(currDate);
+    //   validityDates[i].setDate(validityDates[i].getDate() + i - 1);
+    //   validityDatesView[i] = util.formatDate(validityDates[i])
+    // }
+    wx.setStorageSync('validityDate', this.data.validityDates[this.data.validityDateIndex]);
+    // this.setData({ validityDates, validityDatesView })
+
+    //获取待制作的日期，放入取餐日期列表中
+    this.getChefValidityDates();
+
+    //获取列表数据
+    this.getChefOrderList();
+    this.getChefOrderLineSts();
+    
   },
   selectMenu: function (e) {
     var index = e.currentTarget.dataset.index
@@ -62,6 +80,17 @@ Page({
       // scrollTop: 1186
     })
     console.log("this.data.toView", this.data.toView);
+  },
+  //选择预约日期
+  selValidityDate: function (e) {
+    console.log("selvalidityDate",this.data.validityDates,this.data.validityDatesView);
+    this.setData({ validityDateIndex: e.detail.value })
+
+    //获取预约订单
+    this.getChefOrderList();
+    //获取预约订单统计
+    this.getChefOrderLineSts();
+
   },
   scroll: function (e) {
     // console.log("scroll ",e)
@@ -127,6 +156,22 @@ Page({
     //直接加入购物车
     // this.addToCart();
   },
+  //获取取餐日期
+  getChefValidityDates: function(e){
+    var that = this;
+    util.doGet(app.globalData.server + '/getChefValidityDates', function (res) {
+      console.log("res.length:::",res.data.length);
+      var validityDates = res.data;
+      var validityDatesView = [];
+      validityDatesView[0] = '全部';
+      for (var i = 1; i < res.data.length; i++) {
+        validityDatesView[i] = res.data[i]
+      }
+      that.setData({ validityDates,validityDatesView })
+    });
+
+
+  },
   selfood: function(e){
     // console.log("selfood", e.currentTarget.id);
     var currentId = e.currentTarget.id;
@@ -142,12 +187,89 @@ Page({
     });
     this.setData({ listData: list});
   },
-  //获取订单统计信息
-  getChefOrderSts: function () {
+  getChefOrderList:function(){
     var that = this;
-    util.doGet(app.globalData.server + '/getChefOrderSts', function (res) {
+    var validityDateUrl = '?validityDate=' + this.data.validityDatesView[this.data.validityDateIndex];
+    if (this.data.validityDateIndex == 0) {
+      validityDateUrl = '?validityDate=all';
+    }
+
+    //将本来的后台换成了easy-mock 的接口，所有数据一次请求完 略大。。
+    util.doGet(app.globalData.server + '/getChefOrderList' + validityDateUrl, function (res) {
+      wx.hideLoading();
+      console.log(res)
+      that.setData({
+        listData: res.data,
+        loading: true
+      })
+    });
+
+  },
+  //获取订单统计信息
+  getChefOrderLineSts: function () {
+    var that = this;
+    var validityDateUrl = '?validityDate=' + this.data.validityDatesView[this.data.validityDateIndex];
+    if (this.data.validityDateIndex == 0) {
+      validityDateUrl = '?validityDate=all';
+    }
+    util.doGet(app.globalData.server + '/getOrderLineSts' + validityDateUrl, function (res) {
       that.setData({ foodSts: res.data })
     });
 
   },
+  // 单个确认
+  singleDone: function(e) {
+    console.log("singleDone", e.currentTarget.dataset.item);
+    var item = e.currentTarget.dataset.item;
+    var that = this;
+    wx.request({
+      url: app.globalData.server + '/changeOrderLineStatus?session=' + wx.getStorageSync('third_session'),
+      method: 'POST',
+      data: { orderId: item.order_id[0], status: '3', lineId: item.id },//已确认
+      header: {
+        'Accept': 'application/json'
+      },
+      success: function (res) {
+        //获取列表数据
+        that.getChefOrderList();
+        that.getChefOrderLineSts();
+
+        wx.showToast({
+          title: '制作完成',
+          icon: 'success',
+          duration: 2000
+        })
+      }
+    })
+  },
+  // 批量确认
+  batchDone: function (e) {
+    console.log("batchDone", e.currentTarget.dataset.lines);
+    var that = this;
+
+    var lines = e.currentTarget.dataset.lines;
+    for(var line in lines){
+      console.log(line)
+      wx.request({
+        url: app.globalData.server + '/changeOrderLineStatus?session=' + wx.getStorageSync('third_session'),
+        method: 'POST',
+        data: { orderId: lines[line].order_id[0], status: '3', lineId: lines[line].id },//已确认
+        header: {
+          'Accept': 'application/json'
+        },
+        success: function (res) {
+          //获取列表数据
+          that.getChefOrderList();
+          that.getChefOrderLineSts();
+
+          wx.showToast({
+            title: '制作完成',
+            icon: 'success',
+            duration: 2000
+          })
+        }
+      })
+    } 
+    
+  }
 })

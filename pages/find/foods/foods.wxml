@@ -6,18 +6,31 @@
     </view>
   </view>
   <!-- 右侧菜单 -->
-  <scroll-view scroll-y="true" style='height:1200rpx;' bindscroll="scroll" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}">
+  <scroll-view scroll-y="true" style='height:1000rpx;' bindscroll="scroll" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}">
     <view class="content" id="a{{index}}" wx:for="{{listData}}" wx:key="unique">
       <view class='list-tab'>{{item.name}}</view>
-      <view class='content-list' wx:for="{{item.foods}}" wx:key="unique" wx:for-item="items" wx:for-index="indexs">
+      <view class='content-list' wx:for="{{item.foods}}" wx:key="unique" wx:for-item="food" wx:for-index="indexs">
         <view class='list-image-box'>
-          <image class="list-image" mode="widthFix" src='{{items.image_url}}'></image>
+          <image class="list-image" mode="widthFix" src='{{food.image_small}}'></image>
         </view>
         <view class='issue-name'>
-          <view>{{items.name}}</view>
+          <view style="display:flex;display-flex:row;width:90%">
+            <view>{{food.name}}</view>
+            <view>({{food.leftNumber}})</view>
+          </view>
+          <view style="color:gray">{{food.description_sale}}</view>
           <view style='margin-top:20rpx;color:#F05A86'>
-            ¥ {{items.specfoods[0].price}}.00
-            <i class="iconfont icon-jiahao2fill plus-icon" data-type="{{index}}" data-index="{{indexs}}" bindtap="selectInfo"></i>
+            <view style="display:flex;display-flex:row;width:90%">
+              <view>¥ {{food.list_price}}</view>
+              <view style="flex:1"/>
+              <view wx:if="{{food.cnt}}">
+                <view style="color:gray">x</view>
+              </view>
+              <view style="color:gray">{{food.cnt}}</view>
+              <view style="flex:1"/>
+              <i class="iconfont icon-jiahao2fill plus-icon" data-type="{{index}}" data-index="{{indexs}}" bindtap="selectInfo"></i>
+            </view>
+            
           </view>
 
         </view>
@@ -33,11 +46,11 @@
         </i>
 
         <view class='gouwuche-price' wx:if="{{sumMonney==0}}">购物车是空的</view>
-        <view class='gouwuche-price' style='color:white;font-size:18px' wx:if="{{sumMonney!=0}}">¥ {{sumMonney}}.00</view>
+        <view class='gouwuche-price' style='color:white;font-size:18px' wx:if="{{sumMonney!=0}}">¥ {{sumMonney}}</view>
       </view>
     </view>
     <view class="submit-btn {{sumMonney!=0?'activity-color-bg':'' }}" bindtap='goBalance'>
-      <view class="submit-btn-label {{sumMonney!=0?'color-white':'' }}">做好了</view>
+      <view class="submit-btn-label {{sumMonney!=0?'color-white':'' }}">选好了</view>
     </view>
   </view>
 </view>
@@ -62,7 +75,7 @@
       </view>
       <view style='width:50%;padding:10px;'>
         <view style='float:right'>
-          <label class='activity-color'>¥ {{item.sum}}.00</label>
+          <label class='activity-color'>¥ {{item.sum}}</label>
           <i class="iconfont icon-jian icon-li-circle" data-index="{{index}}" bindtap="decNumber"></i>
           {{item.number}}
           <i class="iconfont icon-jiahao2fill activity-color font20" data-index="{{index}}" bindtap="addNumber"></i>

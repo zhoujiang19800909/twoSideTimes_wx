@@ -10,14 +10,14 @@
     <scroll-view scroll-y="true" style='height:600rpx;margin-top:50rpx' bindscroll="scroll"  >
       <view class='order-list-box' wx:for="{{orderList}}" wx:key="unique">
         <view class='list-info' style="font-size:13px">
-          <view style="margin-right:10rpx;">{{item.orderTime}}</view>
+          <view style="margin-right:10rpx;">{{item.bookTime}}</view>
           <view style="margin-right:10rpx;">共 {{item.cnt}} 件</view>
-          <view style="margin-right:10rpx;">金额 {{item.sum}}</view>
+          <view style="margin-right:10rpx;">金额 {{item.sum}}.00 </view>
+          <view style="margin-right:10rpx;">{{item.statusName}}</view>
           <view style='flex:1' />
-          <image src="../../../images/right.png" style="width:32rpx;height:32rpx;" bindtap='selOrderDetail'/>
+          <image src="../../../images/right.png" style="width:32rpx;height:32rpx;" data-item="{{item}}" bindtap='selOrderDetail'/>
         </view>
       </view>
-
     </scroll-view>
    </view> 
    <view wx:else>
@@ -30,15 +30,15 @@
    <view wx:if="{{tabIndex == 1}}">  
     <view class='order-list-box'>
       <view style="flex:5" />
-      <picker class='go-center' value="{{orderDateIndex}}" range="{{orderDateView}}" bindchange="selOrderDate">
+      <picker class='go-center' value="{{validityDateIndex}}" range="{{validityDatesView}}" bindchange="selValidityDate">
         <view>
-          预约时间：{{orderDateView[orderDateIndex]}}
+          预约时间：{{validityDatesView[validityDateIndex]}}
         </view>
       </picker>
       <view style="flex:1" />
-      <picker mode="time" class='go-center'  value="{{orderTime}}" start="10:00" end="18:00" bindchange="selOrderTime">
+      <picker mode="time" class='go-center'  value="{{validityTime}}" start="09:00" end="17:00" bindchange="selValidityTime">
         <view>
-          {{orderTime}}
+          {{validityTime}}
         </view>
       </picker>
       <view style="flex:5" />

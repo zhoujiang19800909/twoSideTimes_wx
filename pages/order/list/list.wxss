@@ -28,7 +28,7 @@
   color:white
 }
 
-.orderDate-bar{
+.validityDate-bar{
   height:30px;
   font-size:14px;
 }

@@ -1,42 +1,29 @@
 <!--pages/order/list/list.wxml-->
 <view>
   <view style="border-bottom:1px #E3E3E3 solid;">
-    <picker class='go-center' value="{{orderDateIndex}}" range="{{orderDateView}}" bindchange="selOrderDate">
+    <picker class='go-center' value="{{orderDateIndex}}" range="{{validityDatesView}}" bindchange="selOrderDate">
       <view style="font-size:14px;margin:20rpx;">
-        预约时间：{{orderDateView[orderDateIndex]}}
+        预约日期：{{validityDatesView[validityDateIndex]}}
       </view>
     </picker>
   </view>
    <view wx:if="{{hasOrder}}">  
-    <scroll-view scroll-y="true" style='height:950rpx;border-bottom:1px #E3E3E3 solid;' bindscroll="scroll"  >
+    <scroll-view scroll-y="true" style='height:950rpx;border-bottom:1px #E3E3E3 solid;' bindscrolltoupper="scrolltoupper"  >
       <view wx:for="{{orderList}}" wx:key="unique" >
         <!-- 订单Header -->
         <view>
           <view class='order-list-box' style="color:gray;">
-            <view class="go-center check-orderNo"style="{{item.status=='0'?'background-color:orange':item.status=='1'?'background-color:green':item.status=='2'?'background-color:gray':'background-color:red'}}">{{item.takeNo}}-{{item.statusName}}</view>
-            <view class="go-center" style="width:200rpx;color:red;">{{item.sum}}</view>
-            <view wx:if="{{item.status=='0'}}" class='order-list-box' >
-              <view class="go-center check-0}}">通知厨师</view>
-            </view>
-            <view wx:if="{{item.status=='1'}}" class='order-list-box' >
-              <view class="go-center check-1}}">确认取餐</view>
-            </view>
-            <view wx:if="{{item.status=='2'}}" class='order-list-box' >
-              <view class="go-center check-2}}">已完成</view>
-            </view>
-            <view wx:if="{{item.status=='3'}}" class='order-list-box' >
-              <view class="go-center check-3}}">通知顾客</view>
+            <view class="go-center check-orderNo"style="{{item.status=='4'?'background-color:green':item.status=='2'?'background-color:gray':'background-color:red'}}">{{item.orderNo}}</view>
+            <view class="go-center" style="width:200rpx;color:red;">{{item.cnt}}件</view>
+            <view wx:if="{{item.status=='4'}}" class='order-list-box' >
+              <view class="go-center check-1}}"  data-item="{{item}}" bindtap="doTake">确认取餐</view>
             </view>
           </view>
           <view style="display:flex;display-flex:row">
-            <view style="margin-left:30rpx;font-size:12px;color:gray;width:360rpx">顾客名称：{{item.customerName}}</view>
-            <view style="width:20rpx"/>
-            <view style="margin-right:30rpx;font-size:12px;color:gray;width:360rpx">订单：{{item.orderNo}}</view>
+            <view style="margin-left:30rpx;font-size:12px;color:gray;width:500rpx">下单时间：{{item.date_order}}</view>
           </view>
           <view style="display:flex;display-flex:row">
-            <view style="margin-left:30rpx;font-size:12px;color:gray;width:360rpx">下单时间：{{item.orderTime}}</view>
-            <view style="width:20rpx"/>
-            <view style="margin-right:30rpx;font-size:12px;color:gray;width:360rpx">取餐时间：{{item.takeTime}}</view>
+            <view style="margin-left:30rpx;font-size:12px;color:gray;width:360rpx">取餐时间：{{item.bookTime}}</view>
           </view>
           
           <!--订单明细-->
@@ -45,11 +32,10 @@
               <view wx:for="{{item.foodList}}" wx:key="unique" >
                 <view style="color:gray;display:flex;display-flex:row;height:40rpx;">
                   <view style="flex:1" />
-                  <view>{{item.name}}</view>
+                  <view  style="width:100px"  >{{item.name}}</view>
                   <view style="flex:1" />
-                  <view>共{{item.cnt}}份</view>
-                  <view style="flex:1" />
-                  <view>￥{{item.price}}.00</view>
+                  <view  style="width:50px" >共{{item.cnt}}份</view>
+                  <view  style="width:50px" >￥{{item.sum}}.00</view>
                   <view style="flex:1" />
                 </view>
               </view>
@@ -63,11 +49,11 @@
    </view> 
 
   <view class="go-center" style="display:flex;display-flex:column;margin:10rpx;font-size:14px;height:50rpx">
-    <view class="go-center check-cnt" style="background-color:orange;">待制作:{{orderSts.chked}}</view>
-    <view class="go-center check-cnt" style="background-color:green;">待取餐:{{orderSts.done}}</view>
+    <view class="go-center check-cnt" style="background-color:orange;">已确认:{{orderSts.cnt_checked}}</view>
+    <view class="go-center check-cnt" style="background-color:green;">已制作:{{orderSts.cnt_done}}</view>
    </view>
   <view class="go-center" style="display:flex;display-flex:column;margin:10rpx;font-size:14px;border-bottom:1px #E3E3E3 solid;;height:80rpx">
-    <view class="go-center check-cnt" style="background-color:gray;">已取餐:{{orderSts.taked}}</view>
-    <view class="go-center check-cnt" style="background-color:red;">未取餐:{{orderSts.untake}}</view>
+    <view class="go-center check-cnt" style="background-color:gray;">已取餐:{{orderSts.cnt_taken}}</view>
+    <view class="go-center check-cnt" style="background-color:red;">待取餐:{{orderSts.cnt_untake}}</view>
    </view>
 </view>

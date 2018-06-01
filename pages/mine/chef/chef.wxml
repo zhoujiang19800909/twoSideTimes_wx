@@ -1,8 +1,8 @@
 <view>
   <view style="border-bottom: 1px solid #E3E3E3;">
-      <picker class='go-center' value="{{orderDateIndex}}" range="{{orderDateView}}" bindchange="selOrderDate">
+      <picker class='go-center' value="{{validityDateIndex}}" range="{{validityDatesView}}" bindchange="selValidityDate">
         <view style="font-size:14px;margin:20rpx;">
-          预约时间：2018-01-01
+          取餐日期：{{validityDatesView[validityDateIndex]}}
         </view>
       </picker>
   </view>
@@ -26,33 +26,35 @@
           <!--产品名称-->
           <view class='issue-name' style='margin-top:20rpx;width:420rpx;'>
               <view>{{items.name}}</view>
-              <view style="font-size:24rpx;color:orange;">最新订单时间：{{items.uptime}}</view>
+              <view style="font-size:24rpx;color:orange;">共完成：{{items.uptime}}</view>
           </view>
           <!--点击全部完成-->
-          <view class="go-center" style="width:80rpx;border-left: 1px solid #E3E3E3;">
-            <image src="../../../images/chef_achieve.png" style="width:24px;height:24px"/>
+          <view class="go-center" style="width:100rpx;border-left: 1px solid #E3E3E3;" >
+            <image src="../../../images/chef_achieve.png" style="width:24px;height:24px" 
+            data-lines="{{items.lines}}"bindtap="batchDone"/>
           </view>
         </view>
         <!--产品订单信息-->
         <view wx:if="{{items.open}}">
-          <view wx:for="{{items.orderList}}" wx:key="foodId" >
+          <view wx:for="{{items.lines}}" wx:key="foodId" >
             <view style="display:flex;display-flex:col">
               <view style="margin-left:170rpx;border-bottom: 1px solid #E3E3E3;font-size:12px;dispaly:flex;display-flex:row;background-color:#eeeeee;width:510rpx">
                 <view style="color:blue;display:flex;display-flex:column">
                   <!-- 订单号 -->
-                  <view>{{item.orderNo}}</view>
-                  <view style="flex:4" />
+                  <view style="margin-left:20rpx" >{{item.orderNo}}</view>
+                  <view style="flex:2" />
                   <!-- 取餐时间 -->
-                  <view>{{item.takeTime}}</view>
+                  <view style="margin-right:20rpx" >{{item.takeTime}}</view>
                 </view>
                 <!-- 备注 -->
                 
-                <view wx:if="{{item.memo!=''}}" style="color:red;">备注：无</view>
+                <view wx:if="{{item.memo!=''}}" style="color:red;">备注：{{item.memo}}</view>
               </view>
               <view style="flex:1"/>
               <!--点击单个完成-->
-              <view class="go-center" style="width:80rpx;border-left: 1px solid #E3E3E3;">
-                <image src="../../../images/chef_achieve_gray.png" style="width:24px;height:24px"/>
+              <view class="go-center" style="width:100rpx;border-left: 1px solid #E3E3E3;">
+                <image src="../../../images/chef_achieve_gray.png" style="width:24px;height:24px" 
+                data-item="{{item}}" bindtap="singleDone"/>
               </view>
             </view>
           </view>
@@ -62,8 +64,8 @@
   </scroll-view>
   <!-- 底部操作菜单 -->
   <view class="go-center" style="display:flex;display-flex:column;margin:10rpx;font-size:14px;border-bottom:1px #E3E3E3 solid;;height:80rpx">
-    <view class="go-center check-cnt" style="background-color:blue;">全部:{{foodSts.all}}</view>
-    <view class="go-center check-cnt" style="background-color:gray;">已制作:{{foodSts.done}}</view>
-    <view class="go-center check-cnt" style="background-color:orange;">待制作:{{foodSts.undo}}</view>
+    <view class="go-center check-cnt" style="background-color:blue;">全部:{{foodSts.cnt_all}}</view>
+    <view class="go-center check-cnt" style="background-color:gray;">已制作:{{foodSts.cnt_done}}</view>
+    <view class="go-center check-cnt" style="background-color:orange;">待制作:{{foodSts.cnt_todo}}</view>
    </view>
 </view>

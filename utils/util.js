@@ -3,7 +3,7 @@ const testData = require('testData')
 var app = getApp()
 
 
-var runMode = 'demo'
+var runMode = 'run' //demo run
 
 //get请求
 function doGet(url,successCB){
@@ -59,9 +59,6 @@ function doPost(url, data, successCB) {
     })
   }
 
-
-
-
   return "";
 }
 
@@ -69,6 +66,7 @@ function doPost(url, data, successCB) {
 
 //时间格式转换
 function formatTime(date) {
+  console.log("formatTime",date)
 
   var year = date.getFullYear()
   var month = date.getMonth() + 1
@@ -78,18 +76,19 @@ function formatTime(date) {
   var minute = date.getMinutes()
   var second = date.getSeconds()
 
-  return [year, month, day].map(formatNumber).join('/') + ' ' + [hour, minute, second].map(formatNumber).join(':')
+  return [year, month, day].map(formatNumber).join('-') + ' ' + [hour, minute, second].map(formatNumber).join(':')
 }
 
 //日期格式转换
 function formatDate(date) {
+  console.log("formatDate", date)
 
   var year = date.getFullYear()
   var month = date.getMonth() + 1
   var day = date.getDate()
 
 
-  return [year, month, day].map(formatNumber).join('/') 
+  return [year, month, day].map(formatNumber).join('-') 
 }
 
 //数字格式转换

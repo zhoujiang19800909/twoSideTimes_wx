@@ -29,12 +29,12 @@ Page({
       longitude: 118.892042,
       scale: 18,
       name: '取餐地点',
-      address: '南京市江宁区月华西路1号'
+      address: '南京旅游职业学院国内交流中心2F'
     })
   },
   doCall: function(){
     wx.makePhoneCall({
-      phoneNumber: '13951036073' //仅为示例，并非真实的电话号码
+      phoneNumber: '12345678901' //仅为示例，并非真实的电话号码
     })
   }
 })

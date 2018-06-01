@@ -33,10 +33,11 @@ Page({
     wx.showLoading({
       title: '努力加载中',
     })
+    var validityDate = wx.getStorageSync('validityDate');
     //将本来的后台换成了easy-mock 的接口，所有数据一次请求完 略大。。
-    util.doGet(app.globalData.server+'/getFoods',function(res){
+    util.doGet(app.globalData.server + '/getFoods?validityDate='+validityDate,function(res){
       wx.hideLoading();
-      console.log(res)
+      console.log("getFoods---->",res)
       that.setData({
         listData: res.data,
         loading: true
@@ -108,7 +109,7 @@ Page({
   selectInfo: function (e) {
     var type = e.currentTarget.dataset.type;
     var index = e.currentTarget.dataset.index;
-    console.log("selectInfo type ",type,"index ",index);
+    // console.log("selectInfo type ",type,"index ",index);
     this.setData({
       // showModalStatus: !this.data.showModalStatus, // 直接加入购物车不显示弹框
       currentType: type,
@@ -119,23 +120,57 @@ Page({
   },
 
   addToCart: function () {
-    var a = this.data
-    var addItem = {
-      "name": a.listData[a.currentType].foods[a.currentIndex].name,
-      "price": a.listData[a.currentType].foods[a.currentIndex].price,
-      "number": 1,
-      "sum": a.listData[a.currentType].foods[a.currentIndex].price,
+    var a = this.data;
+    // var cartList = this.data.cartList;
+
+    //计算可定数量
+    var leftNumber = a.listData[a.currentType].foods[a.currentIndex].leftNumber;
+    //可定数量小于1不可预定
+    if (leftNumber > 0) {
+      a.listData[a.currentType].foods[a.currentIndex].leftNumber = leftNumber - 1;
+      var currName = a.listData[a.currentType].foods[a.currentIndex].name;
+      var cnt = 0;
+      var price = a.listData[a.currentType].foods[a.currentIndex].list_price
+      if (a.listData[a.currentType].foods[a.currentIndex].cnt){
+        cnt = a.listData[a.currentType].foods[a.currentIndex].cnt;
+      }
+      cnt = cnt + 1;
+      console.log("currName", currName,cnt);
+      a.listData[a.currentType].foods[a.currentIndex].cnt = cnt;
+      a.listData[a.currentType].foods[a.currentIndex].sum = cnt * price;
+
+      
+
+
+      
+      var sumMonney = a.sumMonney + a.listData[a.currentType].foods[a.currentIndex].list_price;
+
+      console.log("addToCart", a.listData);
+
+      var cartList = [];
+      var k = 0;
+      for (var i = 0; i < a.listData.length;i++){
+        // console.log("listData", a.listData[i]);
+        for (var j = 0; j < a.listData[i].foods.length; j++){
+          if (a.listData[i].foods[j].cnt){
+            console.log(a.listData[i].foods[j].name, a.listData[i].foods[j].cnt);
+            cartList[k] = a.listData[i].foods[j];
+            k++;
+          }
+        }
+
+      }
+      
+      
+      this.setData({
+        listData: a.listData,
+        cartList: cartList,
+        showModalStatus: false,
+        sumMonney: sumMonney,
+        cupNumber: a.cupNumber + 1
+      });
+      console.log("addToCart ",this.data.cartList)
     }
-    var sumMonney = a.sumMonney + a.listData[a.currentType].foods[a.currentIndex].price;
-    var cartList = this.data.cartList;
-    cartList.push(addItem);
-    this.setData({
-      cartList: cartList,
-      showModalStatus: false,
-      sumMonney: sumMonney,
-      cupNumber: a.cupNumber + 1
-    });
-    console.log("addToCart ",this.data.cartList)
   },
   showCartList: function () {
     console.log("showCartList",this.data.showCart)
@@ -158,8 +193,8 @@ Page({
     console.log(index)
     var cartList = this.data.cartList;
     cartList[index].number++;
-    var sum = this.data.sumMonney + cartList[index].price;
-    cartList[index].sum += cartList[index].price;
+    var sum = this.data.sumMonney + cartList[index].list_price;
+    cartList[index].sum += cartList[index].list_price;
 
     this.setData({
       cartList: cartList,
@@ -172,8 +207,8 @@ Page({
     console.log("decNumber ",index)
     var cartList = this.data.cartList;
 
-    var sum = this.data.sumMonney - cartList[index].price;
-    cartList[index].sum -= cartList[index].price;
+    var sum = this.data.sumMonney - cartList[index].list_price;
+    cartList[index].sum -= cartList[index].list_price;
     cartList[index].number == 1 ? cartList.splice(index, 1) : cartList[index].number--;
     this.setData({
       cartList: cartList,
@@ -187,59 +222,12 @@ Page({
       wx.setStorageSync('cartList', this.data.cartList);
       wx.setStorageSync('sumMonney', this.data.sumMonney);
       wx.setStorageSync('cupNumber', this.data.cupNumber);
-      wx.setStorageSync('orderNo', 'WD786871263425311');
       wx.setStorageSync('createTime', new Date(), );
 
 
       wx.navigateTo({
-        url: '../order/balance/balance'
+        url: '../../order/balance/balance'
       })
     }
-  },
-
-  onReady: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
   }
 })

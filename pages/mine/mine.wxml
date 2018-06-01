@@ -25,56 +25,64 @@
       <image src="../../images/right.png" background-size="cover" class="item_right"></image>
     </view>
   </view>
-
-  <view class="flex_row">
-    <view>
-      <image src="../../images/mine_service.png" background-size="cover" class="item_left"></image>
-    </view>
-    <view class="item_middle">
-      <text style="color:#aaa;font-size: 14px">我是客服</text>
-    </view>
-    <view style="flex:1" />
-    <view>
-      <image src="../../images/right.png" background-size="cover" class="item_right" bindtap='toService'></image>
-    </view>
-  </view>
-
-  <view class="flex_row">
-    <view>
-      <image src="../../images/mine_chief.png" background-size="cover" class="item_left"></image>
-    </view>
-    <view class="item_middle">
-      <text style="color:#aaa;font-size: 14px">我是厨师</text>
-    </view>
-    <view style="flex:1" />
-    <view>
-      <image src="../../images/right.png" background-size="cover" class="item_right" bindtap='toChief'></image>
+  
+  <view wx:if="{{showService}}">
+    <view class="flex_row">
+      <view>
+        <image src="../../images/mine_service.png" background-size="cover" class="item_left"></image>
+      </view>
+      <view class="item_middle">
+        <text style="color:#aaa;font-size: 14px">我是客服</text>
+      </view>
+      <view style="flex:1" />
+      <view>
+        <image src="../../images/right.png" background-size="cover" class="item_right" bindtap='toService'></image>
+      </view>
     </view>
   </view>
 
-  <view class="flex_row">
-    <view>
-      <image src="../../images/mine_waiter.png" background-size="cover" class="item_left"></image>
-    </view>
-    <view class="item_middle">
-      <text style="color:#aaa;font-size: 14px">我是店员</text>
-    </view>
-    <view style="flex:1" />
-    <view>
-      <image src="../../images/right.png" background-size="cover" class="item_right" bindtap='toWaiter'></image>
+  <view wx:if="{{showChef}}">
+    <view class="flex_row">
+      <view>
+        <image src="../../images/mine_chief.png" background-size="cover" class="item_left"></image>
+      </view>
+      <view class="item_middle">
+        <text style="color:#aaa;font-size: 14px">我是厨师</text>
+      </view>
+      <view style="flex:1" />
+      <view>
+        <image src="../../images/right.png" background-size="cover" class="item_right" bindtap='toChef'></image>
+      </view>
     </view>
   </view>
 
-  <view class="flex_row">
-    <view>
-      <image src="../../images/manager.png" background-size="cover" class="item_left"></image>
+  <view wx:if="{{showWaiter}}">
+    <view class="flex_row">
+      <view>
+        <image src="../../images/mine_waiter.png" background-size="cover" class="item_left"></image>
+      </view>
+      <view class="item_middle">
+        <text style="color:#aaa;font-size: 14px">我是店员</text>
+      </view>
+      <view style="flex:1" />
+      <view>
+        <image src="../../images/right.png" background-size="cover" class="item_right" bindtap='toWaiter'></image>
+      </view>
     </view>
-    <view class="item_middle">
-      <text style="color:#aaa;font-size: 14px">我是店长</text>
-    </view>
-    <view style="flex:1" />
-    <view>
-      <image src="../../images/right.png" background-size="cover" class="item_right" bindtap='toManager'></image>
+  </view>
+
+  <view wx:if="{{showManager}}">
+    <view class="flex_row">
+      <view>
+        <image src="../../images/manager.png" background-size="cover" class="item_left"></image>
+      </view>
+      <view class="item_middle">
+        <text style="color:#aaa;font-size: 14px">我是店长</text>
+      </view>
+      <view style="flex:1" />
+      <view>
+        <image src="../../images/right.png" background-size="cover" class="item_right" bindtap='toManager'></image>
+      </view>
     </view>
   </view>
 

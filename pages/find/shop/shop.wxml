@@ -9,22 +9,21 @@
     </block>
   </swiper>
   <view class='go-center' style='margin-top:10px;height:340rpx;border-bottom:1px #E3E3E3 solid;border-top:1px #E3E3E3 solid;'>
-    <label class='index-label' style="margin:30rpx">两面时光概念店基于南京旅游职业学院的大学生创业扶持政策，两面时光概念店以校内创业孵化基地为依托，打造一个交流、学习、休闲三位一体的平台，以期完成将休闲、餐饮、学习相结合的文化产物，传播中华面塑、裱花、烘焙等技艺。 </label>
-  
+    <label class='index-label' style="margin:30rpx">两面时光微商小程序应用满足餐饮、商铺、网店等各类线上线下零售业务，提供面向消费者的店铺介绍、商品目录及介绍、预定、支付等功能，提供面向商家的订单确认、订单制作和派送跟踪管理。平台由小程序端、店铺后台管理端以及数据接口三部分组成。 </label>
   </view>
   <view class='go-center' style='margin-top:10px;height:90rpx;border-bottom:1px #E3E3E3 solid;'>
-    <image mode="aspectFit" src="../../../images/index_times.png" class="index_icon"/>
+    <image mode="aspectFit" src="../../images/index_times.png" class="index_icon"/>
     <label class='index-label'>取餐时间：周一至周五 16:00 - 20:00 </label>
     <view style="flex:1"/>
   </view>
   <view class='go-center' style='margin-top:10px;height:90rpx;border-bottom:1px #E3E3E3 solid;'>
-    <image mode="aspectFit" src="../../../images/index_addr.png" class="index_icon" bindtap='showAddr'/>
-    <label class='index-label'>取餐地点：南京旅游职业学院一号教学楼101室</label>
+    <image mode="aspectFit" src="../../images/index_addr.png" class="index_icon" bindtap='showAddr'/>
+    <label class='index-label'>取餐地点：南京市雨花区软件大道1号2F</label>
     <view style="flex:1"/>
   </view>
   <view class='go-center' style='margin-top:10px;height:90rpx;'>
-    <image mode="aspectFit" src="../../../images/index_tel.png" class="index_icon" bindtap='doCall'/>
-    <label class='index-label'>客服电话： 13951036073 (工作日 08:00-18:00 )</label>
+    <image mode="aspectFit" src="../../images/index_tel.png" class="index_icon" bindtap='doCall'/>
+    <label class='index-label'>客服电话： 12345678901 (08:00-18:00 )</label>
     <view style="flex:1"/>
   </view>
 
